@@ -8,7 +8,7 @@ class Ordenar extends Component {
   }
 
   actualizarCantidad(e){
-    console.log(e);
+    this.props.hacerPedido(this.props.indice, e.target.value);
   }
 
   render(){

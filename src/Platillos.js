@@ -16,7 +16,14 @@ class Platillos extends Component {
               <img role="presentation" src={logo} className="ImagenPlatillo"/>
               <h2 className="TitlePlatillo"> { value.nombre } </h2>
               <div className="DescripcionPlatillo">{value.descripcion}</div>
-              <Ordenar precio={value.precio}/>
+              <Ordenar
+                precio={value.precio}
+                indice={index}
+                hacerPedido={(indice_d, event_d)=>{
+                    VarTiendaController.ponerEnLaOrden(indice_d, event_d);
+                  }
+                }
+              />
             </div>
           </div>
         )
