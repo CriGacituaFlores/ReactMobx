@@ -18,6 +18,22 @@ class TiendaController {
         descripcion: "platillo muy rico",
         precio: 200,
         cantidad: 0
+      }],
+      bebidas: [{
+        nombre: "primer bebida",
+        descripcion: "bibida muy rico",
+        precio: 350,
+        cantidad: 0
+      },{
+        nombre: "segundo bebida",
+        descripcion: "bibida muy rico",
+        precio: 100,
+        cantidad: 0
+      },{
+        nombre: "tercer bebida",
+        descripcion: "bibida muy rico",
+        precio: 200,
+        cantidad: 0
       }]
     });
   }
@@ -27,6 +43,16 @@ class TiendaController {
       (value,index)=>{
         if(indicePlatillo === index){
           this.platillos[index].cantidad = cantidadPlatillo;
+        }
+      }
+    )
+  }
+
+  bebidasEnLaOrden(indiceBebida, cantidadBebida){
+    this.bebidas.forEach(
+      (value,index)=>{
+        if(indiceBebida === index){
+          this.bebidas[index].cantidad = cantidadBebida;
         }
       }
     )
