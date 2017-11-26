@@ -37,6 +37,11 @@ var imprimirPlatillos = function(){
       var div = document.createElement("div");
       var img = document.createElement("img");
       var br = document.createElement("br");
+      var button = document.createElement("button");
+
+      button.setAttribute('id', childKey);
+      button.setAttribute("onclick", "eliminarPlatillos(this.id)");
+      button.appendChild(document.createTextNode("Eliminar platillo"));
 
       img.src = childData.direccion;
       img.height = 60;
@@ -49,13 +54,23 @@ var imprimirPlatillos = function(){
       li.appendChild(document.createTextNode("Descripcion: " + childData.descripcion));
       li.appendChild(br);
       li.appendChild(document.createTextNode("Precio: " + childData.precio));
+      li.appendChild(br);
+      li.appendChild(button);
 
       ul.appendChild(li);
     });
   });
 }
 
-//
+//Eliminar platillos
+
+var eliminarPlatillos = function(id){
+  database.ref('alimentos/' + id).remove().then(function(){
+    console.log('se elimino');
+  }).catch(function(error){
+    console.log("fallo: " + error);
+  });
+}
 
 
 function funcionDeLaForma(){
