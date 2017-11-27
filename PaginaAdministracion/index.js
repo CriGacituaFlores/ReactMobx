@@ -1,4 +1,3 @@
-
 var config = {
   apiKey: "AIzaSyC5-XTNDgm-ehTvc_xJ1PVxbFX1NsQPa5w",
   authDomain: "administracion-9090a.firebaseapp.com",
@@ -8,6 +7,25 @@ var config = {
   messagingSenderId: "452171096444"
 };
 firebase.initializeApp(config);
+
+//autenticacion
+
+var ingresar = function(){
+  var email = document.getElementById("correo").value;
+  var password = document.getElementById("password").value;
+  firebase.auth().signInWithEmailAndPassword(email, password)
+  .then(function(){
+    console.log("Ingresaste correctamente");
+  })
+  .catch(function(error){
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    console.log(errorCode);
+    console.log(errorMessage);
+  })
+}
+
+//
 
 var database = firebase.database();
 

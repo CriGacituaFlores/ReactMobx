@@ -6,23 +6,15 @@
   </head>
   <body>
 
-    <a href="platillos.html">Platillos</a>
+    <h2>Bienvenido</h2>
+
 
     <div>
-      <form onsubmit="funcionDeLaForma()">
-        Nombre <input type="text" name="nombre" id="nombre"/><br/>
-        Descripcion <textarea id="descripcion"></textarea><br/>
-        Precio <input type="number" name="precio" id="precio"/><br/>
-        <input type="file" name="imagen" onchange="visualizarArchivo()"/>
-        <br/>
-        <img src="" height="300" alt="Imagen de Platillo" id="imgPlatillo"/>
-        <br/>
-        Direccion imagen: <input type="text" name="direccion" id="imgDir"/>
-        <br/>
-        <input type="submit" valur="Subir"/>
-      </form>
+      Correo: <input type="email" id="correo"/>
+      Password: <input type="password" name="" id="password"/>
+      <br/>
+      <button onclick="ingresar()">Ingresar</button>
     </div>
-
 
   </body>
 
