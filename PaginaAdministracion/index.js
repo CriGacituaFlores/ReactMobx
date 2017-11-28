@@ -16,6 +16,7 @@ var ingresar = function(){
   firebase.auth().signInWithEmailAndPassword(email, password)
   .then(function(){
     console.log("Ingresaste correctamente");
+    window.location = "agregarPlatillo.html";
   })
   .catch(function(error){
     var errorCode = error.code;
@@ -23,6 +24,28 @@ var ingresar = function(){
     console.log(errorCode);
     console.log(errorMessage);
   })
+}
+
+//observador de autenticacion
+
+firebase.auth().onAuthStateChanged(function(user){
+  if (user){
+    console.log('estas auterizado');
+
+  } else {
+    console.log('no estas autorizado');
+    if(window.location.pathname !== "/home/cristian/Desktop/Platzi/LienzoApp/create-react-app-mobx-master/PaginaAdministracion/index.html"){
+        window.location = "index.html";
+    }
+  }
+});
+
+var salir = function(){
+  firebase.auth().signOut().then(function(){
+    console.log('sesion terminada');
+  }, function(error){
+    console.log("errrrrror: " + error);
+  });
 }
 
 //
@@ -35,6 +58,11 @@ var escribirPlatillo = function(pNombre, pDescripcion, pPrecio, pDireccion){
     descripcion: pDescripcion,
     precio: pPrecio,
     direccion: pDireccion
+  }).then(function(){
+    alert("se agrego correctamente el platillo");
+    window.location = "platillos.html";
+  }).catch(function(error){
+    alert("el platillo no se agrego porque: " + error);
   });
 }
 
@@ -91,13 +119,20 @@ var eliminarPlatillos = function(id){
 }
 
 
-function funcionDeLaForma(){
+function funcionDeLaForma(event){
+  event.preventDefault();
   var nombre = document.getElementById("nombre").value;
   var descripcion = document.getElementById("descripcion").value;
   var precio = document.getElementById("precio").value;
   var direccion = document.getElementById("imgDir").value;
 
-  escribirPlatillo(nombre,descripcion,precio,direccion);
+  try{
+    escribirPlatillo(nombre,descripcion,precio,direccion);
+  }catch(error){
+    console.log("no se agrego: " + error);
+  }
+
+  return false;
 }
 
 var storage = firebase.storage();
