@@ -34,7 +34,7 @@ firebase.auth().onAuthStateChanged(function(user){
 
   } else {
     console.log('no estas autorizado');
-    if(window.location.pathname !== "/home/cristian/Desktop/Platzi/LienzoApp/create-react-app-mobx-master/PaginaAdministracion/index.html"){
+    if(window.location.pathname !== "/index.html"){
         window.location = "index.html";
     }
   }
