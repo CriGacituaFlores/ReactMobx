@@ -175,3 +175,124 @@ function visualizarArchivo(){
   }
 
 }
+
+
+//
+
+
+function visualizarArchivoBebidas(){
+  var preview = document.querySelector('img');
+  var archivo = document.querySelector('input[type=file]').files[0];
+  var lector = new FileReader();
+
+  lector.onloadend = function(){
+    preview.src = lector.result;
+  }
+
+  if(archivo){
+    lector.readAsDataURL(archivo);
+
+    var subirImagen = storageRef.child('bebidas/' + archivo.name).put(archivo);
+    subirImagen.on('state_changed', function(snapshot){
+      //Los cambios en la carga del archivo
+      var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      console.log('Upload is ' + progress + '% done');
+      switch (snapshot.state) {
+        case firebase.storage.TaskState.PAUSED: // or 'paused'
+          console.log('Upload is paused');
+          break;
+        case firebase.storage.TaskState.RUNNING: // or 'running'
+          console.log('Upload is running');
+          break;
+  }
+    }, function(error){
+      console.log("error es: " + error);
+    }, function(){
+      console.log(subirImagen.snapshot.downloadURL);
+      document.getElementById("imgDir").value = subirImagen.snapshot.downloadURL;
+    });
+  } else {
+    preview.src="";
+  }
+
+}
+
+function funcionDeLaFormaBebidas(event){
+  event.preventDefault();
+  var nombre = document.getElementById("nombre").value;
+  var descripcion = document.getElementById("descripcion").value;
+  var precio = document.getElementById("precio").value;
+  var direccion = document.getElementById("imgDir").value;
+
+  try{
+    escribirPlatilloBebida(nombre,descripcion,precio,direccion);
+  }catch(error){
+    console.log("no se agrego: " + error);
+  }
+
+  return false;
+}
+
+var escribirPlatilloBebida = function(pNombre, pDescripcion, pPrecio, pDireccion){
+  database.ref('bebidas/').push({
+    nombre: pNombre,
+    descripcion: pDescripcion,
+    precio: pPrecio,
+    direccion: pDireccion
+  }).then(function(){
+    alert("se agrego correctamente la bebida");
+    window.location = "agregarBebida.html";
+  }).catch(function(error){
+    alert("la bebida no se agrego porque: " + error);
+  });
+}
+
+
+var imprimirBebidas = function(){
+  var query = database.ref('bebidas/');
+  query.on('value', function(snapshot){
+    //console.log(snapshot.val());
+    var ul = document.getElementById("lista");
+    snapshot.forEach(function(childSnapshot){
+      console.log(childSnapshot.key);
+      console.log(childSnapshot.val());
+
+      var childKey = childSnapshot.key;
+      var childData = childSnapshot.val();
+
+      var li = document.createElement("li");
+      var div = document.createElement("div");
+      var img = document.createElement("img");
+      var br = document.createElement("br");
+      var button = document.createElement("button");
+
+      button.setAttribute('id', childKey);
+      button.setAttribute("onclick", "eliminarBebidas(this.id)");
+      button.appendChild(document.createTextNode("Eliminar bebida"));
+
+      img.src = childData.direccion;
+      img.height = 60;
+      img.alt = "Imagen de bebida";
+
+      div.appendChild(img);
+      li.appendChild(div);
+      li.appendChild(document.createTextNode("Nombre: " + childData.nombre));
+      li.appendChild(br);
+      li.appendChild(document.createTextNode("Descripcion: " + childData.descripcion));
+      li.appendChild(br);
+      li.appendChild(document.createTextNode("Precio: " + childData.precio));
+      li.appendChild(br);
+      li.appendChild(button);
+
+      ul.appendChild(li);
+    });
+  });
+}
+
+var eliminarBebidas = function(id){
+  database.ref('bebidas/' + id).remove().then(function(){
+    console.log('se elimino');
+  }).catch(function(error){
+    console.log("fallo: " + error);
+  });
+}
