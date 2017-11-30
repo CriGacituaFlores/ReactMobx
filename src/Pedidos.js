@@ -6,8 +6,8 @@ class Pedidos extends Component {
 
   render(){
 
-    let PlatillosPedidos = [];
-    let BebidasPedidas = [];
+    var PlatillosPedidos = [];
+    var BebidasPedidas = [];
 
     const llenar_PlatillosPedidos = VarTiendaController.platillos.forEach(
       (value,index)=>{

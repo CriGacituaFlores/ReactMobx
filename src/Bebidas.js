@@ -13,7 +13,7 @@ class Bebidas extends Component {
         bebidas_div.push(
           <div className="list-group-item" key={index}>
             <div className="panel-body">
-              <img role="presentation" src={logo} className="ImagenPlatillo"/>
+              <img role="presentation" src={value.direccion} className="ImagenPlatillo"/>
               <h2 className="TitlePlatillo"> { value.nombre } </h2>
               <div className="DescripcionPlatillo">{value.descripcion}</div>
               <Ordenar
